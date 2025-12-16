@@ -21,7 +21,7 @@ export default function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <Video className="w-7 h-7" strokeWidth={1.5} />
-            <span className="font-heading text-xl uppercase tracking-wider">ConferenceHub</span>
+            <span className="font-heading text-xl uppercase tracking-wider">ConferenceHome</span>
           </Link>
 
           {/* Desktop Navigation */}
