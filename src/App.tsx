@@ -8,9 +8,7 @@ import SchedulePage from "@/components/pages/SchedulePage";
 import MeetingRoomPage from "@/components/pages/MeetingRoomPage";
 import ProfilePage from "@/components/pages/ProfilePage";
 
-/* ----------------------------------------
-   Layout Component
----------------------------------------- */
+
 function Layout() {
   return (
     <>
@@ -20,9 +18,6 @@ function Layout() {
   );
 }
 
-/* ----------------------------------------
-   Router Configuration
----------------------------------------- */
 const router = createBrowserRouter(
   [
     {
@@ -61,9 +56,7 @@ const router = createBrowserRouter(
   }
 );
 
-/* ----------------------------------------
-   App Component
----------------------------------------- */
+
 export default function App() {
   return (
       <RouterProvider router={router} />
