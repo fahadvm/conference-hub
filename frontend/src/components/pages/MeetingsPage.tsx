@@ -159,7 +159,7 @@ export default function MeetingsPage() {
               </p>
               <Button
                 onClick={handleStartInstantMeeting}
-                className="bg-primary text-primary-foreground hover:bg-foreground px-8 py-6 text-base font-paragraph uppercase tracking-wider w-full sm:w-auto"
+                className="bg-primary text-primary-foreground hover:bg-foreground rounded-none px-8 py-6 text-base font-paragraph uppercase tracking-wider w-full sm:w-auto"
               >
                 Start Instant Meeting
               </Button>
@@ -190,7 +190,7 @@ export default function MeetingsPage() {
                 <Button
                   onClick={handleJoinMeeting}
                   disabled={!meetingCode.trim()}
-                  className="bg-primary text-primary-foreground hover:bg-foreground px-8 py-6 text-base font-paragraph uppercase tracking-wider disabled:opacity-50"
+                  className="bg-primary text-primary-foreground hover:bg-foreground rounded-none px-8 py-6 text-base font-paragraph uppercase tracking-wider disabled:opacity-50"
                 >
                   Join
                 </Button>
@@ -208,7 +208,7 @@ export default function MeetingsPage() {
               SCHEDULED MEETINGS
             </h2>
             <Link to="/schedule">
-              <Button className="bg-primary text-primary-foreground hover:bg-foreground px-8 py-6 text-base font-paragraph uppercase tracking-wider">
+              <Button className="bg-primary text-primary-foreground hover:bg-foreground rounded-none px-8 py-6 text-base font-paragraph uppercase tracking-wider">
                 Schedule New
               </Button>
             </Link>
@@ -276,18 +276,18 @@ export default function MeetingsPage() {
                     <div className="flex flex-wrap gap-3 sm:gap-4 w-full lg:w-auto">
                       {meeting.status !== 'ended' ? (
                         <Link to={`/meeting/${meeting.id}`} className="flex-1 sm:flex-none">
-                          <Button className="bg-primary text-primary-foreground hover:bg-foreground px-6 py-5 text-sm font-paragraph uppercase tracking-wider w-full">
+                          <Button className="bg-primary text-primary-foreground hover:bg-foreground rounded-none px-6 py-5 text-sm font-paragraph uppercase tracking-wider w-full">
                             Join Meeting
                           </Button>
                         </Link>
                       ) : (
-                        <Button disabled className="bg-muted text-subtletext px-6 py-5 text-sm font-paragraph uppercase tracking-wider cursor-not-allowed flex-1 sm:flex-none">
+                        <Button disabled className="bg-muted text-subtletext rounded-none px-6 py-5 text-sm font-paragraph uppercase tracking-wider cursor-not-allowed flex-1 sm:flex-none">
                           Expired
                         </Button>
                       )}
                       <Button
                         variant="outline"
-                        className="border-2 border-gridline hover:border-foreground px-6 py-5 text-sm font-paragraph uppercase tracking-wider flex-1 sm:flex-none"
+                        className="border-2 border-gridline hover:border-foreground rounded-none px-6 py-5 text-sm font-paragraph uppercase tracking-wider flex-1 sm:flex-none"
                         onClick={() => {
                           const url = `${window.location.origin}/meeting/${meeting.id}`;
                           navigator.clipboard.writeText(url);
@@ -297,19 +297,19 @@ export default function MeetingsPage() {
                         Copy Link
                       </Button>
                       {deletingId === meeting.id ? (
-                        <div className="flex items-center gap-2 bg-destructive/10 p-1 border border-destructive/20">
+                        <div className="flex items-center gap-3 bg-destructive/10 p-2 border border-destructive/20 rounded-none">
                           <Button 
                             variant="destructive" 
                             size="sm"
-                            className="bg-destructive text-destructive-foreground px-4 py-4 text-xs font-paragraph uppercase tracking-wider"
+                            className="bg-destructive text-destructive-foreground rounded-none px-6 py-4 text-xs font-paragraph uppercase tracking-wider hover:bg-destructive/80"
                             onClick={() => deleteMeeting(meeting.id)}
                           >
                             Delete Now
                           </Button>
                           <Button 
-                            variant="ghost" 
+                            variant="outline" 
                             size="sm"
-                            className="text-foreground border border-gridline px-4 py-4 text-xs font-paragraph uppercase tracking-wider bg-background"
+                            className="border-2 border-gridline rounded-none px-6 py-4 text-xs font-paragraph uppercase tracking-wider hover:bg-foreground hover:text-background"
                             onClick={() => setDeletingId(null)}
                           >
                             Cancel
