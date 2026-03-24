@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Video, Plus, Clock, Calendar as CalendarIcon, Loader2, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,6 +20,7 @@ interface Meeting {
 }
 
 export default function MeetingsPage() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [meetingCode, setMeetingCode] = useState('');
   const [loading, setLoading] = useState(true);
@@ -77,7 +78,7 @@ export default function MeetingsPage() {
     }
 
     if (code) {
-      window.location.href = `/meeting/${code}`;
+      navigate(`/meeting/${code}`);
     }
   };
 
@@ -98,11 +99,11 @@ export default function MeetingsPage() {
         }]);
 
       if (error) throw error;
-      window.location.href = `/meeting/${newMeetingId}`;
+      navigate(`/meeting/${newMeetingId}`);
     } catch (err) {
       console.error('Error creating instant meeting:', err);
       // Fallback navigate anyway if DB fails
-      window.location.href = `/meeting/${newMeetingId}`;
+      navigate(`/meeting/${newMeetingId}`);
     }
   };
 
