@@ -39,7 +39,7 @@ export default function MeetingsPage() {
       const { data, error } = await supabase
         .from('meetings')
         .select('*')
-        .order('scheduled_time', { ascending: true });
+        .order('scheduled_time', { ascending: false });
 
       if (error) throw error;
 
@@ -234,8 +234,8 @@ export default function MeetingsPage() {
               </div>
             ) : (
               meetings.map((meeting) => (
-                <div key={meeting.id} className="bg-background p-8 lg:p-10 w-full">
-                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div key={meeting.id} className="bg-background p-6 sm:p-8 lg:p-10 w-full border-b border-gridline last:border-b-0">
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-4">
                         <h3 className="font-heading text-2xl uppercase tracking-wide">
@@ -272,21 +272,21 @@ export default function MeetingsPage() {
                       </div>
                     </div>
 
-                    <div className="flex gap-4">
+                    <div className="flex flex-wrap gap-3 sm:gap-4 w-full lg:w-auto">
                       {meeting.status !== 'ended' ? (
-                        <Link to={`/meeting/${meeting.id}`}>
-                          <Button className="bg-primary text-primary-foreground hover:bg-foreground px-6 py-5 text-sm font-paragraph uppercase tracking-wider">
+                        <Link to={`/meeting/${meeting.id}`} className="flex-1 sm:flex-none">
+                          <Button className="bg-primary text-primary-foreground hover:bg-foreground px-6 py-5 text-sm font-paragraph uppercase tracking-wider w-full">
                             Join Meeting
                           </Button>
                         </Link>
                       ) : (
-                        <Button disabled className="bg-muted text-subtletext px-6 py-5 text-sm font-paragraph uppercase tracking-wider cursor-not-allowed">
-                          Meeting Expired
+                        <Button disabled className="bg-muted text-subtletext px-6 py-5 text-sm font-paragraph uppercase tracking-wider cursor-not-allowed flex-1 sm:flex-none">
+                          Expired
                         </Button>
                       )}
                       <Button
                         variant="outline"
-                        className="border-2 border-gridline hover:border-foreground px-6 py-5 text-sm font-paragraph uppercase tracking-wider"
+                        className="border-2 border-gridline hover:border-foreground px-6 py-5 text-sm font-paragraph uppercase tracking-wider flex-1 sm:flex-none"
                         onClick={() => {
                           const url = `${window.location.origin}/meeting/${meeting.id}`;
                           navigator.clipboard.writeText(url);
@@ -299,7 +299,7 @@ export default function MeetingsPage() {
                         <Button 
                           variant="ghost" 
                           size="icon"
-                          className="text-destructive hover:bg-destructive/10 px-4 py-5"
+                          className="text-destructive hover:bg-destructive/10 h-10 w-10 sm:h-auto sm:w-auto px-4 py-5"
                           onClick={() => deleteMeeting(meeting.id)}
                           title={meeting.status === 'ended' ? "Remove Expired Meeting" : "Delete Meeting"}
                         >

@@ -215,10 +215,10 @@ export default function HomePage() {
                         "This platform has transformed our remote workflow. The quality and reliability are unmatched, making it an indispensable tool for our global team."
                     </p>
                     <p className="font-paragraph text-lg uppercase tracking-widest mt-12">
-                        Alex Johnson
+                        Fahad VM
                     </p>
                     <p className="font-paragraph text-base text-subtletext mt-1">
-                        CEO, Innovatech
+                        CEO, Devnext
                     </p>
                 </motion.div>
             </div>
