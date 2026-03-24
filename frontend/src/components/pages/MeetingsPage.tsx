@@ -26,6 +26,7 @@ export default function MeetingsPage() {
   const [loading, setLoading] = useState(true);
   const [meetings, setMeetings] = useState<Meeting[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     if (user) {
@@ -108,7 +109,7 @@ export default function MeetingsPage() {
   };
 
   const deleteMeeting = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this meeting?')) return;
+    setDeletingId(null);
     
     try {
       const { error } = await supabase
@@ -295,16 +296,37 @@ export default function MeetingsPage() {
                       >
                         Copy Link
                       </Button>
-                      {(user && (user.id === meeting.hostId || meeting.status === 'ended')) && (
-                        <Button 
-                          variant="ghost" 
-                          size="icon"
-                          className="text-destructive hover:bg-destructive/10 h-10 w-10 sm:h-auto sm:w-auto px-4 py-5"
-                          onClick={() => deleteMeeting(meeting.id)}
-                          title={meeting.status === 'ended' ? "Remove Expired Meeting" : "Delete Meeting"}
-                        >
-                          <Trash2 className="w-5 h-5" />
-                        </Button>
+                      {deletingId === meeting.id ? (
+                        <div className="flex items-center gap-2 bg-destructive/10 p-1 border border-destructive/20">
+                          <Button 
+                            variant="destructive" 
+                            size="sm"
+                            className="bg-destructive text-destructive-foreground px-4 py-4 text-xs font-paragraph uppercase tracking-wider"
+                            onClick={() => deleteMeeting(meeting.id)}
+                          >
+                            Delete Now
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            className="text-foreground border border-gridline px-4 py-4 text-xs font-paragraph uppercase tracking-wider bg-background"
+                            onClick={() => setDeletingId(null)}
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                      ) : (
+                        (user && (user.id === meeting.hostId || meeting.status === 'ended')) && (
+                          <Button 
+                            variant="ghost" 
+                            size="icon"
+                            className="text-destructive hover:bg-destructive/10 h-10 w-10 sm:h-auto sm:w-auto px-4 py-5"
+                            onClick={() => setDeletingId(meeting.id)}
+                            title={meeting.status === 'ended' ? "Remove Expired Meeting" : "Delete Meeting"}
+                          >
+                            <Trash2 className="w-5 h-5" />
+                          </Button>
+                        )
                       )}
                     </div>
                   </div>

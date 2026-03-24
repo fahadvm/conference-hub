@@ -74,7 +74,7 @@ export default function MeetingRoomPage() {
       {/* Top Bar matching app theme */}
       <div className="bg-primary text-primary-foreground border-b border-gridline px-6 py-4 flex items-center justify-between z-10">
         <div className="flex items-center gap-4">
-          <h1 className="font-heading text-lg uppercase tracking-wider">Live Conference</h1>
+          <h1 className="font-heading text-lg uppercase tracking-wider">MEETUP</h1>
         </div>
         <div className="flex items-center gap-3 px-4 py-2 bg-background text-foreground border border-gridline">
           <div className="flex flex-col">
