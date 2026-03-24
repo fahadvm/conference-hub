@@ -1,0 +1,135 @@
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { supabase } from '@/lib/supabase';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Video } from 'lucide-react';
+
+export default function SignUpPage() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [msg, setMsg] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setMsg(null);
+    
+    const { error, data } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: name,
+        }
+      }
+    });
+
+    if (error) {
+      setError(error.message);
+    } else if (data.user) {
+      setMsg("Registration successful! Please log in.");
+      setTimeout(() => navigate('/login'), 2000);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+      <Link to="/" className="flex items-center gap-3 mb-10">
+        <Video className="w-8 h-8 text-primary" strokeWidth={1.5} />
+        <span className="font-heading text-2xl uppercase tracking-wider text-foreground">meetUp</span>
+      </Link>
+
+      <div className="w-full max-w-md bg-background border border-gridline p-10 lg:p-12">
+        <h1 className="font-heading text-4xl uppercase mb-2 tracking-wide text-foreground">
+          Create Account
+        </h1>
+        <p className="font-paragraph text-subtletext mb-8">
+          Join us to start hosting and joining meetings.
+        </p>
+
+        {error && (
+          <div className="bg-destructive/10 text-destructive p-4 mb-6 text-sm border border-destructive/20">
+            {error}
+          </div>
+        )}
+        {msg && (
+          <div className="bg-green-500/10 text-green-500 p-4 mb-6 text-sm border border-green-500/20">
+            {msg}
+          </div>
+        )}
+
+        <form onSubmit={handleSignUp} className="space-y-6">
+          <div className="space-y-3">
+            <Label htmlFor="name" className="font-heading text-base uppercase tracking-wider">
+              Full Name
+            </Label>
+            <Input
+              id="name"
+              type="text"
+              placeholder="John Doe"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full px-6 py-6 text-base font-paragraph border-2 border-gridline focus:border-foreground"
+              required
+            />
+          </div>
+
+          <div className="space-y-3">
+            <Label htmlFor="email" className="font-heading text-base uppercase tracking-wider">
+              Email Address
+            </Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="name@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-6 py-6 text-base font-paragraph border-2 border-gridline focus:border-foreground"
+              required
+            />
+          </div>
+
+          <div className="space-y-3">
+            <Label htmlFor="password" className="font-heading text-base uppercase tracking-wider">
+              Password
+            </Label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-6 py-6 text-base font-paragraph border-2 border-gridline focus:border-foreground"
+              required
+            />
+          </div>
+
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-primary text-primary-foreground hover:bg-foreground px-8 py-6 text-base font-paragraph uppercase tracking-wider"
+          >
+            {loading ? 'Creating account...' : 'Sign Up'}
+          </Button>
+        </form>
+
+        <div className="mt-8 text-center border-t border-gridline pt-6">
+          <p className="font-paragraph text-subtletext">
+            Already have an account?{' '}
+            <Link to="/login" className="text-primary hover:underline font-bold uppercase tracking-wide">
+              Log In
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
