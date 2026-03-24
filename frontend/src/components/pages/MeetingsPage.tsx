@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Video, Plus, Clock, Users, Calendar as CalendarIcon, Loader2, Trash2 } from 'lucide-react';
+import { Video, Plus, Clock, Calendar as CalendarIcon, Loader2, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Header from '@/components/Header';
