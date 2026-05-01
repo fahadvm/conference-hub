@@ -14,10 +14,22 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  const handleDemoLogin = () => {
+    setEmail('hrdemo@meetup.com');
+    setPassword('Demo@123');
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
+    if (!email || !password) {
+      setError("Please fill in all fields.");
+      setLoading(false);
+      return;
+    }
+
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -100,6 +112,40 @@ export default function LoginPage() {
             {loading ? 'Logging in...' : 'Log In'}
           </Button>
         </form>
+
+        <div className="mt-8 pt-6 border-t border-gridline">
+          <div className="bg-primary/5 border border-primary/20 p-6">
+            <div className="flex justify-between items-start mb-2">
+              <h3 className="font-heading text-lg uppercase tracking-wider text-primary">
+                Demo Access for HR
+              </h3>
+              <span className="text-[10px] uppercase tracking-widest text-primary/70 bg-primary/10 px-2 py-1">
+                Evaluation Only
+              </span>
+            </div>
+            <p className="font-paragraph text-sm text-subtletext mb-6">
+              Use these credentials to easily test the project without creating an account.
+            </p>
+            <div className="space-y-3 mb-6 font-paragraph text-sm">
+              <div className="flex justify-between items-center border-b border-primary/10 pb-2">
+                <span className="text-subtletext uppercase tracking-wider text-xs">Email</span>
+                <span className="font-medium text-foreground">hrdemo@meetup.com</span>
+              </div>
+              <div className="flex justify-between items-center border-b border-primary/10 pb-2">
+                <span className="text-subtletext uppercase tracking-wider text-xs">Password</span>
+                <span className="font-medium text-foreground">Demo@123</span>
+              </div>
+            </div>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleDemoLogin}
+              className="w-full text-sm py-4 border-primary/30 hover:bg-primary/10 text-primary uppercase tracking-wider font-heading"
+            >
+              Use Demo Credentials
+            </Button>
+          </div>
+        </div>
 
         <div className="mt-8 text-center border-t border-gridline pt-6">
           <p className="font-paragraph text-subtletext">

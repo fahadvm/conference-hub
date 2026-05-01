@@ -22,6 +22,24 @@ export default function SignUpPage() {
     setError(null);
     setMsg(null);
     
+    if (!name || !email || !password) {
+      setError("Please fill in all fields.");
+      setLoading(false);
+      return;
+    }
+    
+    if (name.length < 2) {
+      setError("Name must be at least 2 characters long.");
+      setLoading(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      setLoading(false);
+      return;
+    }
+
     const { error, data } = await supabase.auth.signUp({
       email,
       password,

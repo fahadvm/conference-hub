@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
+import LogoutConfirmModal from '@/components/LogoutConfirmModal';
 
 export default function ProfilePage() {
   const { user, signOut } = useAuth();
@@ -16,6 +17,7 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   
   const [profileData, setProfileData] = useState({
     name: user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User',
@@ -111,6 +113,7 @@ export default function ProfilePage() {
   };
 
   const handleLogout = async () => {
+    setShowLogoutModal(false);
     await signOut();
     navigate('/');
   };
@@ -131,7 +134,7 @@ export default function ProfilePage() {
             </p>
           </div>
           <Button
-            onClick={handleLogout}
+            onClick={() => setShowLogoutModal(true)}
             variant="outline"
             className="border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground hover:text-primary rounded-none px-8 py-4 text-sm font-paragraph uppercase tracking-wider mb-2 flex items-center gap-2"
           >
@@ -269,6 +272,12 @@ export default function ProfilePage() {
       </section>
 
       <Footer />
+
+      <LogoutConfirmModal 
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={handleLogout}
+      />
     </div>
   );
 }

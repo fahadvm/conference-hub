@@ -3,12 +3,14 @@ import { Video, Menu, X, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import LogoutConfirmModal from '@/components/LogoutConfirmModal';
 
 export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const navLinks = [
     { path: '/', label: 'Home' },
@@ -20,6 +22,7 @@ export default function Header() {
   ];
 
   const handleLogout = async () => {
+    setShowLogoutModal(false);
     await signOut();
     navigate('/');
   };
@@ -59,7 +62,7 @@ export default function Header() {
                   </Button>
                 </Link>
                 <Button 
-                  onClick={handleLogout}
+                  onClick={() => setShowLogoutModal(true)}
                   variant="ghost" 
                   className="text-primary-foreground hover:bg-white/10 px-4 py-5"
                   title="Logout"
@@ -122,7 +125,7 @@ export default function Header() {
                     </Button>
                   </Link>
                   <Button 
-                    onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
+                    onClick={() => { setShowLogoutModal(true); setMobileMenuOpen(false); }}
                     variant="outline" 
                     className="border-white/20 text-white w-full px-6 py-5 text-sm font-paragraph uppercase tracking-wider"
                   >
@@ -147,6 +150,12 @@ export default function Header() {
           </nav>
         )}
       </div>
+
+      <LogoutConfirmModal 
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={handleLogout}
+      />
     </header>
   );
 }
